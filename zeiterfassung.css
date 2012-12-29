@@ -1,0 +1,75 @@
+
+body
+  {
+  max-width: 815px;
+  background-color: #404040;
+  color: white;
+  font-family: arial, helvetica, sans-serif;
+  }
+
+a
+  {
+  color: white;
+  }
+
+.headline
+  {
+  text-align:center; 
+  font-size:18pt;
+  margin: 1em;
+  }
+
+.warnMsg {color:#808000;}
+.errorMsg {color:#600000;}
+.successMsg {color:#008000;}
+
+.userBox
+  {
+  width: 12em;
+  height: 5em;
+  text-align:center;
+  border: 1px solid;
+  border-color: white;
+  display: table-cell;
+  vertical-align: middle;
+  }
+  
+.userBox_abwesend { background-color: #505050;}
+.userBox_arbeit { background-color: #008000;}
+.userBox_pause { background-color: #808000;}
+.userBox_buero { background-color: #000060;}
+.userBox_urlaub { background-color: #800080;}
+.userBox_krank { background-color: #600000;}
+.userBox_schule { background-color: #008080;}
+
+.userState {font-size: 80%;}
+
+.userWrapper
+  {
+  display:inline-block;
+  margin: 0.15em;
+  }
+
+button
+  {
+  min-width:75px;
+  min-height:75px;
+  font-size:20pt;
+  }
+  
+  
+.zehnertastatur td {
+ width:75px;
+ height:75px;
+}       
+.zehnertastatur button {
+ width:100%;
+ height:100%;
+ font-size:20pt;
+}
+.zehnertastatur input {
+ height:80%;  
+ font-size:20pt;
+ padding:2px;
+ margin:2px;
+}

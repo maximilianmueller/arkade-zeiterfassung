@@ -1,0 +1,14 @@
+
+  	hr.pme-hr		          { border: 0px solid; border-color: white; display:none; padding: 0px; margin: 0px; border-top-width: 1px; height: 1px; }
+  	table.pme-main 	      { border: 1px solid; border-color: white; border-collapse: collapse; border-spacing: 0px; width: 100%; }
+  	table.pme-navigation  { border: 0px solid; border-color: white; border-collapse: collapse; border-spacing: 0px; width: 100%; }
+  	td.pme-navigation-0, td.pme-navigation-1
+  	                      { white-space: nowrap; }
+  	th.pme-header	        { border-bottom: 1px dashed; border-color: white; padding: 4px; background-color: #505050; }
+  	td.pme-key-0, td.pme-value-0, td.pme-help-0, td.pme-navigation-0, td.pme-cell-0,
+  	td.pme-key-1, td.pme-value-1, td.pme-help-0, td.pme-navigation-1, td.pme-cell-1,
+  	td.pme-sortinfo, td.pme-filter
+  	                      { border-bottom: 1px dashed; border-color: white; padding: 4px; }
+  	td.pme-buttons        { padding-top: 10px; text-align: left;   }
+  	td.pme-message        { text-align: center; }
+  	td.pme-stats          { text-align: right;  }
