@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Geschützter Bereich"
+AuthUserfile "../htdocs/zeiterfassung/.htpasswd"
+Require valid-user
