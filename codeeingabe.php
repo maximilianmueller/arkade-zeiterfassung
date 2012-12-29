@@ -1,6 +1,6 @@
 <?php
-$mitarbeiter = $_GET['mitarbeiter'];
-$md5Hash = $_GET['md5Hash'];
+$mitarbeiter = $_POST['mitarbeiter'];
+$md5Hash = $_POST['md5Hash'];
 
 
 echo <<<END_CODEEINGABE

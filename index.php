@@ -30,13 +30,19 @@ END_USER;
   mysql_close($dbh);
   ?>
   <div class="headline" id="acttime">&nbsp;</div>
+  <form name="forwardForm" action="codeeingabe.php" method="POST">
+    <input type="hidden" name="mitarbeiter" value="">
+    <input type="hidden" name="md5Hash" value="">
+  </form>
   
 </body>
 
 <script type="text/javascript">
 function clickUser (kuerzel, md5Hash)
   {
-  document.location.href = "codeeingabe.php?mitarbeiter=" + kuerzel + "&md5Hash=" + md5Hash;
+  document.forms["forwardForm"].elements["mitarbeiter"].value = kuerzel;
+  document.forms["forwardForm"].elements["md5Hash"].value = md5Hash;
+  document.forms["forwardForm"].submit();
   }
 </script>
 
