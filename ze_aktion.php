@@ -67,25 +67,22 @@ END_CODEEINGABE;
 
   $allActions = array ();
   $allActions["arbeit_beginn"] = "Arbeitsbeginn";
-  $allActions["arbeit_ende"]   = "Arbeitsende";
   $allActions["pause_beginn"]  = "Pausenbeginn";
   $allActions["pause_ende"]    = "Pausenende";
+  $allActions["arbeit_ende"]   = "Arbeitsende";
   if ($buero == 'ja')
     {
     $allActions["buero_beginn"] = "Büro Beginn";
     $allActions["buero_ende"]   = "Büro & Arbeit beenden";
     }
-  # im zustand buero muss die aktion "arbeit_beginn" eine andere beschriftung bekommen:
-  if ($zustand == 'buero')
-    $allActions["arbeit_beginn"] = "Büro beenden";
 
   $expectedActions = array ();
   if ($zustand == 'abwesend' || $zustand == 'buero')
     array_push ($expectedActions, "arbeit_beginn");
   if ($zustand == 'arbeit')
     {
-    array_push ($expectedActions, "arbeit_ende");
     array_push ($expectedActions, "pause_beginn");
+    array_push ($expectedActions, "arbeit_ende");
     }
   if ($zustand == 'pause')
     array_push ($expectedActions, "pause_ende");
