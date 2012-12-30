@@ -312,9 +312,11 @@ switch($zustand) {
 
       case 'pause_ende':
         # to be done
+        $error = true;
         break;    
 
       default:
+        $error = true;
         break;
     }
 
@@ -396,11 +398,13 @@ switch($zustand) {
         }
         else {
         # to be done  
+        $error = true;
         }
         # zustand 'arbeit' bleibt unverändert
         break;    
 
       default:
+        $error = true;
         break;
     }
 
@@ -439,6 +443,7 @@ switch($zustand) {
       # --------------------------
 
       default:
+        $error = true;
         break;
     }
 
@@ -451,12 +456,32 @@ switch($zustand) {
 
     switch($aktion) {
  
+      # -----------------
+      # Reguläre Aktionen
+      # -----------------
       case 'pause_ende':
         ende_eintragen('pause');
         setze_zustand('arbeit');
         break;    
 
+      # --------------------------
+      # Aktionen im Korrekturmodus
+      # --------------------------
+      case 'arbeit_ende':
+        if(gleicher_tag()) {
+          ende_eintragen('arbeit');
+          schreibe_arbeitszeiten();
+        }    
+        else {
+          schreibe_arbeitszeiten();
+          ende_eintragen('arbeit', true);
+          schreibe_arbeitszeiten();
+        }
+        setze_zustand('abwesend');
+        break;
+
       default:
+        $error = true;
         break;
     }
 
@@ -469,8 +494,8 @@ mysql_close($dbh);
 ?>
 
 <!DOCTYPE HTML>
-
 <html>
+
 <head>
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Zeit Eintragen</title>
@@ -479,8 +504,8 @@ mysql_close($dbh);
     <meta http-equiv="refresh" content="1; URL=.">
   <?php } ?>
 </head>
-<body>
 
+<body>
   <?php if ($error) { ?>
   
     <div class="errorMsg">Fehler bei der Zeiteintragung!</div>
@@ -492,6 +517,13 @@ mysql_close($dbh);
     Automatische Weiterleitung auf den Startbildschirm in wenigen Sekunden.
     
   <?php } ?>
-
 </body>
+
+<script type="text/javascript">
+  function clickStart ()
+    {
+    document.location.href = ".";
+    }
+</script>
+
 </html>
