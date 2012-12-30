@@ -74,7 +74,7 @@ END_CODEEINGABE;
   if (($zustand == 'abwesend' || $zustand == 'arbeit' || $correctMode) && $buero == 'ja')
     echo "<button onClick=\"clickAction('buero_beginn')\">Beginn Büroarbeit</button>";
   
-  if ($zustand == 'buero' || $correctMode)
+  if (($zustand == 'buero' || $correctMode) && $buero == 'ja')
     echo "<button onClick=\"clickAction('buero_ende')\">Ende Büro</button>";
 
 ?>

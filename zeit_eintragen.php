@@ -28,12 +28,14 @@ class AZ_Eintrag {
   public $ende;
   public $pause;
   public $buero;
+  public $status;
 
   function AZ_Eintrag($datum, $ma) {
     $this->tag = $datum;
     $this->mitarbeiter = $ma;
     $this->pause = 0;
     $this->buero = 0;
+    $this->status = "ok";
   }
 
   function eintragen() {
@@ -56,6 +58,10 @@ class AZ_Eintrag {
     if($this->buero != 0) {
       $insert .= ", buero";
       $values .= ", '".date("H:i:s", $this->buero)."'";
+    }
+    if($this->status != "ok") {
+      $insert .= ", status";
+      $values .= ", '".$this->status.'";
     }
 
     $sql = "insert into zeiterfassung.azdump (".$insert.")";
@@ -81,6 +87,20 @@ class AZ_Eintrag {
 #
 #------------------------------------------------------------------------------
 
+function gleicher_tag() {
+  global $dbh, $mitarbeiter, $datum;
+
+  # Ermittle alle Datensätze vom Typ 'arbeit' in azlog, die heute angelegt wurden und für die 
+  # noch kein Ende eingetragen wurde  
+  $sql = "select * from zeiterfassung.azlog";
+  $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = 'arbeit'";
+  $sql .= " and ende = '00:00:00'";
+  $res = mysql_query($sql, $dbh);
+  if($res) return true;  
+  else return false;
+}
+  
+
 # Erzeugt einen neuen Datensatz in der Tabelle azlog und trägt die 'beginn' Zeit ein.
 # Der Typ wird übergeben. Die Werte 'mitarbeiter' und 'tag' und 'beginn' werden von den globalen
 # Werten übernommen.
@@ -101,22 +121,37 @@ function beginn_eintragen($typ) {
 }
 
 
-# Traegt die Ende-Zeit bei einem Log Datensatz ein. Der Datensatz muß existieren und die 'ende' Zeit
-# muß zudem leer sein. Die Felder 'mitarbeiter' und 'tag' müssen zu den aktuellen Werten passen. Der 'typ'
-# muss zu dem übergebenen Typ passen. 
-function ende_eintragen($typ) {
+# Traegt die Ende-Zeit bei einem Log Datensatz ein. Der Datensatz existiert oder wird 
+# neu angelegt (im Fehlerfall). Die Felder 'mitarbeiter' und 'tag' müssen zu den aktuellen 
+# Werten passen. Der 'typ' muss zu dem übergebenen Typ passen. 
+function ende_eintragen($typ, $anlegen = false) {
   global $dbh, $error, $mitarbeiter, $datum, $zeit;
 
-  $sql = "update zeiterfassung.azlog set ende = '".$zeit."'";
-  $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = '".$typ."' and ende is null";
-  $res = mysql_query($sql, $dbh);
-  if($res) {
-    $error = false;
-    return true;
+  if($anlegen = false) {
+    $sql = "update zeiterfassung.azlog set ende = '".$zeit."'";
+    $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = '".$typ."' and ende ="."'00:00:00'";
+    $res = mysql_query($sql, $dbh);
+    if($res) {
+      $error = false;
+      return true;
+    }
+    else {
+      $error = true;
+      return false;
+    }
   }
   else {
-    $error = true;
-    return false;
+    $sql = "insert into zeiterfassung.azlog (tag, kuerzel, typ, ende)";
+    $sql .= " values ('".$datum."', '".$mitarbeiter."', '".$typ."', '".$zeit."');";
+    $res = mysql_query($sql, $dbh);
+    if($res) {
+      $error = false;
+      return true;
+    }
+    else {
+      $error = true;
+      return false;
+    }
   }
 }
 
@@ -140,8 +175,8 @@ function setze_zustand($zustand) {
 
 
 # Erzeugt einen Eintrag in der Tabelle 'azdump'. Wird aufgerufen, wenn
-# in den Zustand 'abwesend' zurückgekehrt wird. Kann mehrfach pro Tag aufgerufen
-# werden.
+# in den Zustand 'abwesend' zurückgekehrt wird oder im Fehlerfall. 
+# Kann mehrfach pro Tag aufgerufen werden.
 function schreibe_arbeitszeiten() {
   global $dbh, $error, $mitarbeiter, $datum;
 
@@ -164,19 +199,36 @@ function schreibe_arbeitszeiten() {
   for($i = 0; $i < $count; $i++) {
     $row[$i] = mysql_fetch_assoc($res);
 
+    if($row[$i]['beginn'] == "00:00:00") $beginn_null = true;
+    else $beginn_null = false;
+    if($row[$i]['ende'] == "00:00:00") $ende_null = true;
+    else $ende_null = false;
+
     switch($row[$i]['typ']) {
 
       case 'arbeit':
-        $eintrag->beginn = $row[$i]['beginn'];
-        $eintrag->ende = $row[$i]['ende'];
+        if(!beginn_null)
+          $eintrag->beginn = $row[$i]['beginn'];
+        else
+          $eintrag->status = "fehler";
+        if(!ende_null)
+          $eintrag->ende = $row[$i]['ende'];
+        else
+          $eintrag->status = "fehler";
         break;
 
       case 'pause':
-        $eintrag->pause += strtotime($row[$i]['ende']) - strtotime($row[$i]['beginn']);
+        if(!beginn_null && !ende_null)
+          $eintrag->pause += strtotime($row[$i]['ende']) - strtotime($row[$i]['beginn']);
+        if((beginn_null && !ende_null) || (!beginn_null && ende_null))
+          $eintrag->status = "fehler";
         break;
 
       case 'buero':
-        $eintrag->buero += strtotime($row[$i]['ende']) - strtotime($row[$i]['beginn']);
+        if(!beginn_null && !ende_null)
+          $eintrag->buero += strtotime($row[$i]['ende']) - strtotime($row[$i]['beginn']);
+        if((beginn_null && !ende_null) || (!beginn_null && ende_null))
+          $eintrag->status = "fehler";
         break;
 
     }
@@ -223,7 +275,7 @@ switch($zustand) {
       case 'arbeit_beginn':
         beginn_eintragen('arbeit'); 
         setze_zustand('arbeit');
-        break;    
+        break;
 
       case 'buero_beginn':
         beginn_eintragen('arbeit');
@@ -245,20 +297,76 @@ switch($zustand) {
 
     switch($aktion) {
  
+      # -----------------
+      # Reguläre Aktionen
+      # -----------------
       case 'arbeit_ende':
-        ende_eintragen('arbeit');
+        if(gleicher_tag()) {
+          ende_eintragen('arbeit');
+          schreibe_arbeitszeiten();
+        }    
+        else {
+          schreibe_arbeitszeiten();
+          ende_eintragen('arbeit', true);
+          schreibe_arbeitszeiten();
+        }
         setze_zustand('abwesend');
-        schreibe_arbeitszeiten();
-        break;    
+        break;
 
       case 'buero_beginn':
-        beginn_eintragen('buero'); 
+        if(gleicher_tag()) {
+          beginn_eintragen('buero'); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit'); 
+          beginn_eintragen('buero'); 
+        }
         setze_zustand('buero');
         break;    
 
       case 'pause_beginn':
-        beginn_eintragen('pause'); 
+        if(gleicher_tag()) {
+          beginn_eintragen('pause'); 
+        }
+        else {
+        # to be done  
+        }
         setze_zustand('pause');
+        break;    
+
+      # --------------------------
+      # Aktionen im Korrekturmodus
+      # --------------------------
+      case 'arbeit_beginn':
+        schreibe_arbeitszeiten();
+        beginn_eintragen('arbeit'); 
+        # zustand 'arbeit' bleibt unverändert
+        break;    
+
+      case 'buero_ende':
+        if(gleicher_tag()) {
+          ende_eintragen('arbeit');
+          ende_eintragen('buero', true); 
+          schreibe_arbeitszeiten();
+        }
+        else {
+          schreibe_arbeitszeiten();
+          ende_eintragen('arbeit', true); 
+          ende_eintragen('buero', true); 
+          schreibe_arbeitszeiten();
+        }
+        setze_zustand('abwesend');
+        break;    
+
+      case 'pause_ende':
+        if(gleicher_tag()) {
+          ende_eintragen('pause', true); 
+        }
+        else {
+        # to be done  
+        }
+        # zustand 'arbeit' bleibt unverändert
         break;    
 
       default:
