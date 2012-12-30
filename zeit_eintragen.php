@@ -61,7 +61,7 @@ class AZ_Eintrag {
     }
     if($this->status != "ok") {
       $insert .= ", status";
-      $values .= ", '".$this->status.'";
+      $values .= ", '".$this->status."'";
     }
 
     $sql = "insert into zeiterfassung.azdump (".$insert.")";
