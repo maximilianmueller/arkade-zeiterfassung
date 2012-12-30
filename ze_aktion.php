@@ -103,7 +103,8 @@ END_CODEEINGABE;
 
   foreach ($allActions as $actKey => $actText)
     {
-    if (in_array ($actKey, $expectedActions) || $correctMode)
+    $isExpected = in_array ($actKey, $expectedActions);
+    if ($isExpected && !$correctMode || $correctMode && !$isExpected)
       echo "<button onClick=\"clickAction('$actKey')\">$actText</button>";
     }
 
