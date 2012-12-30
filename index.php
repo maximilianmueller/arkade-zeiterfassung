@@ -25,9 +25,9 @@
     $kuerzel = $row['kuerzel'];
     $manummer = $row['manummer'];
     $zustand = $row['ze_zustand'];
-    $md5Hash = md5 ($kuerzel . (string) $manummer);
+    $checkHash = md5 ($kuerzel . "_checkHash_" . (string) $manummer);
     echo <<<END_USER
-    <input type="hidden" id="md5Hash_$kuerzel" value="$md5Hash">
+    <input type="hidden" id="checkHash_$kuerzel" value="$checkHash">
     <a href="javascript:clickUser('$kuerzel')"><div class="userWrapper"><div class="userBox userBox_$zustand">
       $kuerzel<br><span class="userState">[$zustand]</span>
     </div></div></a>
@@ -82,7 +82,7 @@ END_USER;
 <script type="text/javascript">
 
 var jq = jQuery;
-var md5Hash;
+var checkHash;
 var mitarbeiter;
 
 jq("#zehnertastatur").dialog({
@@ -94,7 +94,7 @@ jq("#zehnertastatur").dialog({
 function clickUser (kuerzel)
   {
   mitarbeiter = kuerzel;
-  md5Hash = document.getElementById("md5Hash_" + kuerzel).value;
+  checkHash = document.getElementById("checkHash_" + kuerzel).value;
   jq("#mitarbeiterName").text(kuerzel);
   jq("#zehnertastatur").dialog("open");
   }
@@ -111,8 +111,8 @@ function del_digit ()
 function clickOK ()
   {
   var co = document.getElementById("eingabe");
-  var _md5Hash = MD5 (mitarbeiter + co.value);
-  if (_md5Hash == md5Hash)
+  var _checkHash = MD5 (mitarbeiter + "_checkHash_" + co.value);
+  if (_checkHash == checkHash)
     {
     document.forms["forwardForm"].action = "ze_aktion.php";
     document.forms["forwardForm"].elements["mitarbeiter"].value = mitarbeiter;
