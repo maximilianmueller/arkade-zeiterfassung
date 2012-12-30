@@ -21,6 +21,7 @@ echo <<<END_CODEEINGABE
 <html>
 
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Aktion</title>
   <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
   <script type="text/javascript" src="zeiterfassung.js"></script>

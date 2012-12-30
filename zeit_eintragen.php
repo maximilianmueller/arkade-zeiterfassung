@@ -473,6 +473,7 @@ mysql_close($dbh);
 
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Zeit Eintragen</title>
   <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
   <?php if (!$error) { ?>

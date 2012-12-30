@@ -3,6 +3,7 @@
 <html>
 
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Arkade Arbeitszeiterfassung</title>
   <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
   <script type="text/javascript" src="zeiterfassung.js"></script>
@@ -84,12 +85,10 @@ var jq = jQuery;
 var md5Hash;
 var mitarbeiter;
 
-jq(function() {
-  jq("#zehnertastatur").dialog({
-    autoOpen: false,
-    width: "450px",
-    modal: true
-  });
+jq("#zehnertastatur").dialog({
+  autoOpen: false,
+  width: "450px",
+  modal: true
 });
 
 function clickUser (kuerzel)
