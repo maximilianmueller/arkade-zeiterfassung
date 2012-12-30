@@ -90,7 +90,7 @@ END_CODEEINGABE;
 
   if ($correctMode)
     {
-    $expectedText = enumerate ($expectedActions, ", ", " oder ", $allActions) + " ?";
+    $expectedText = enumerate ($expectedActions, ", ", " oder ", $allActions) . " ?";
     echo "<span class='warnMsg'>Hinweis: Bitte das vergessene Stempeln ($expectedText) auf dem Zettel \"Korrekturen / Bemerkungen\" eintragen!</span><br><br>";
     }
 
