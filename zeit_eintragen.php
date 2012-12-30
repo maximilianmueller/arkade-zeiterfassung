@@ -79,8 +79,6 @@ class AZ_Eintrag {
       
 
 
-
-
 #------------------------------------------------------------------------------
 #
 # Hilfsfunktionen
@@ -94,7 +92,7 @@ function gleicher_tag() {
   # noch kein Ende eingetragen wurde  
   $sql = "select * from zeiterfassung.azlog";
   $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = 'arbeit'";
-  $sql .= " and ende = '00:00:00'";
+  $sql .= " and ende = '00:00:00';";
   $res = mysql_query($sql, $dbh);
   if($res) return true;  
   else return false;
@@ -130,9 +128,10 @@ function beginn_eintragen($typ, $beginn_null = true) {
 function ende_eintragen($typ, $anlegen = false) {
   global $dbh, $error, $mitarbeiter, $datum, $zeit;
 
-  if($anlegen = false) {
+  if(!$anlegen) {
     $sql = "update zeiterfassung.azlog set ende = '".$zeit."'";
-    $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = '".$typ."' and ende ="."'00:00:00'";
+    $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = '".$typ."'";
+    $sql .= " and ende = '00:00:00' and dump_flag = 0;";
     $res = mysql_query($sql, $dbh);
     if($res) {
       $error = false;
