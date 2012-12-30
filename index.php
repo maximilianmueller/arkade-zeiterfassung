@@ -93,12 +93,32 @@ jq("#zehnertastatur").dialog({
   modal: true
 });
 
-function handleKeyPress (keyCode)
+function keyDown (_event)
+  {
+  if (!_event)
+    _event = window.event;
+  var keyCode = null;
+  if (_event.which)
+    keyCode = _event.which;
+  else if (_event.keyCode)
+    keyCode = _event.keyCode;
+  if (keyCode != null)
+    return handleKeyDown (keyCode);
+  return true; // event NICHT behandelt => true returnen, damit default-handling greift
+  }
+document.onkeydown = keyDown;
+
+function handleKeyDown (keyCode)
   {
   if (keyCode >= 48 && keyCode <= 57) // 0 - 9 auf der normalen tastatur
     add_digit (keyCode - 48);
-  if (keyCode >= 96 && keyCode <= 105) // 0 - 9 auf dem nummernblock
+  else if (keyCode >= 96 && keyCode <= 105) // 0 - 9 auf dem nummernblock
     add_digit (keyCode - 96);
+  else if (keyCode == 8) // backspace
+    del_digit ();
+  else
+    return true; // event NICHT behandelt => true returnen, damit default-handling greift
+  return false; // event behandelt => false returnen, damit default-handling NICHT greift
   }
 
 function clickUser (kuerzel)

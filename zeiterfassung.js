@@ -1,20 +1,6 @@
 
 var jq = (typeof jQuery != "undefined") ? jQuery : null;
 
-function keyDown (_event)
-  {
-  if (!_event)
-    _event = window.event;
-  var keyCode = null;
-  if (_event.which)
-    keyCode = _event.which;
-  else if (_event.keyCode)
-    keyCode = _event.keyCode;
-  if (keyCode != null && typeof handleKeyPress == "function")
-    handleKeyPress (keyCode);
-  }
-document.onkeydown = keyDown;
-
 function show_time()
   {
   var now = new Date();
