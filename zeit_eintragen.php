@@ -210,27 +210,27 @@ function schreibe_arbeitszeiten() {
     switch($row[$i]['typ']) {
 
       case 'arbeit':
-        if(!beginn_null)
+        if(!$beginn_null)
           $eintrag->beginn = $row[$i]['beginn'];
         else
           $eintrag->status = "fehler";
-        if(!ende_null)
+        if(!$ende_null)
           $eintrag->ende = $row[$i]['ende'];
         else
           $eintrag->status = "fehler";
         break;
 
       case 'pause':
-        if(!beginn_null && !ende_null)
+        if(!$beginn_null && !$ende_null)
           $eintrag->pause += strtotime($row[$i]['ende']) - strtotime($row[$i]['beginn']);
-        if((beginn_null && !ende_null) || (!beginn_null && ende_null))
+        if(($beginn_null && !$ende_null) || (!$beginn_null && $ende_null))
           $eintrag->status = "fehler";
         break;
 
       case 'buero':
-        if(!beginn_null && !ende_null)
+        if(!$beginn_null && !$ende_null)
           $eintrag->buero += strtotime($row[$i]['ende']) - strtotime($row[$i]['beginn']);
-        if((beginn_null && !ende_null) || (!beginn_null && ende_null))
+        if(($beginn_null && !$ende_null) || (!$beginn_null && $ende_null))
           $eintrag->status = "fehler";
         break;
 
