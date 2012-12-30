@@ -11,7 +11,7 @@
 
 <?php include "navi.php"; ?>
 <br>
-<h3>Arkade Zeiterfassung Admin - Gesamte Tage</h3>
+<h3>Arkade Zeiterfassung Admin - Zeiterfassung</h3>
 
 <?php
 /*
