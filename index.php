@@ -97,6 +97,7 @@ function clickUser (kuerzel)
   mitarbeiter = kuerzel;
   checkHash = document.getElementById("checkHash_" + kuerzel).value;
   jq("#mitarbeiterName").text(kuerzel);
+  document.getElementById("eingabe").value = "";
   jq("#zehnertastatur").dialog("open");
   }
 function add_digit (digit)
