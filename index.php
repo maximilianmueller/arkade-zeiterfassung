@@ -5,12 +5,14 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Arkade Arbeitszeiterfassung</title>
-  <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
-  <script type="text/javascript" src="zeiterfassung.js"></script>
-	<link href="jquery/css/vader/jquery-ui-1.9.2.custom.css" rel="stylesheet">
-	<script src="jquery/js/jquery-1.8.3.js"></script>
-	<script src="jquery/js/jquery-ui-1.9.2.custom.js"></script>
+  
+	<script type="text/javascript" src="jquery/js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="jquery/js/jquery-ui-1.9.2.custom.js"></script>
   <script type="text/javascript" src="md5.js"></script>
+  <script type="text/javascript" src="zeiterfassung.js"></script>
+  
+	<link rel="stylesheet" type="text/css" href="jquery/css/vader/jquery-ui-1.9.2.custom.css" >
+  <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
 </head>
 
 <body onLoad="show_time()">
@@ -68,7 +70,7 @@ END_USER;
       </tr>
       <tr>
         <td colspan="3"><input type="text" maxlength="4" id="eingabe"></td>
-        <td colspan="2"><button onclick="clickOK()">OK</button></td>
+        <td colspan="2"><button id="okButton" onclick="clickOK()">OK</button></td>
       </tr>
     </table>
   </div>
@@ -82,15 +84,22 @@ END_USER;
 
 <script type="text/javascript">
 
-var jq = jQuery;
 var checkHash;
 var mitarbeiter;
 
 jq("#zehnertastatur").dialog({
   autoOpen: false,
-  width: "450px",
+  width: "460px",
   modal: true
 });
+
+function handleKeyPress (keyCode)
+  {
+  if (keyCode >= 48 && keyCode <= 57) // 0 - 9 auf der normalen tastatur
+    add_digit (keyCode - 48);
+  if (keyCode >= 96 && keyCode <= 105) // 0 - 9 auf dem nummernblock
+    add_digit (keyCode - 96);
+  }
 
 function clickUser (kuerzel)
   {
@@ -99,6 +108,7 @@ function clickUser (kuerzel)
   jq("#mitarbeiterName").text(kuerzel);
   document.getElementById("eingabe").value = "";
   jq("#zehnertastatur").dialog("open");
+  jq("#okButton").focus();
   }
 function add_digit (digit)
   {
