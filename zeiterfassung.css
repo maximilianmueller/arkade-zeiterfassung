@@ -1,4 +1,8 @@
 
+/*
+generelle deklarationen
+*/
+
 body
   {
   max-width: 815px;
@@ -12,6 +16,17 @@ a
   color: white;
   }
 
+button
+  {
+  min-width:75px;
+  min-height:75px;
+  font-size:20pt;
+  }
+
+/*
+universelle klassen
+*/
+
 .headline
   {
   text-align:center; 
@@ -23,6 +38,10 @@ a
 .errorMsg {color:#600000;}
 .successMsg {color:#008000;}
 
+/*
+user boxen auf der übersichtsseite
+*/
+
 .userBox
   {
   width: 12em;
@@ -33,7 +52,13 @@ a
   display: table-cell;
   vertical-align: middle;
   }
-  
+
+.userWrapper
+  {
+  display:inline-block;
+  margin: 0.15em;
+  }
+
 .userBox_abwesend { background-color: #505050;}
 .userBox_arbeit { background-color: #008000;}
 .userBox_pause { background-color: #808000;}
@@ -44,20 +69,10 @@ a
 
 .userState {font-size: 80%;}
 
-.userWrapper
-  {
-  display:inline-block;
-  margin: 0.15em;
-  }
+/*
+zehnertastatur
+*/
 
-button
-  {
-  min-width:75px;
-  min-height:75px;
-  font-size:20pt;
-  }
-  
-  
 .zehnertastatur td {
  width:75px;
  height:75px;
@@ -68,7 +83,8 @@ button
  font-size:20pt;
 }
 .zehnertastatur input {
- height:80%;  
+ height:80%;
+ width:96%;
  font-size:20pt;
  padding:2px;
  margin:2px;
