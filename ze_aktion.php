@@ -1,4 +1,5 @@
 <?php
+require "helpers.php";
 
 $mitarbeiter = $_POST['mitarbeiter'];
 $correctMode = false;
@@ -57,26 +58,47 @@ echo <<<END_CODEEINGABE
   
 END_CODEEINGABE;
 
-  if ($correctMode)
-    echo "<span class='warnMsg'>Hinweis: Bitte das vergessene Stempeln auf dem Zettel \"Korrekturen / Bemerkungen\" eintragen!</span><br><br>";
-  
-  if ($zustand == 'abwesend' || $zustand == 'buero' || $correctMode)
-    echo "<button onClick=\"clickAction('arbeit_beginn')\">Arbeitsbeginn</button>";
-
-  if ($zustand == 'arbeit' || $correctMode)
+  $allActions = array (
+    "arbeit_beginn" => "Arbeitsbeginn",
+    "arbeit_ende"   => "Arbeitsende",
+    "pause_beginn"  => "Pausenbeginn",
+    "pause_ende"    => "Pausenende"
+  );
+  if ($buero == 'ja')
     {
-    echo "<button onClick=\"clickAction('arbeit_ende')\">Arbeitsende</button>";
-    echo "<button onClick=\"clickAction('pause_beginn')\">Pausenbeginn</button>";
+    $allActions["buero_beginn"] = "Büro Beginn";
+    $allActions["buero_ende"]   = "Büro Ende";
     }
-  
-  if ($zustand == 'pause' || $correctMode)
-    echo "<button onClick=\"clickAction('pause_ende')\">Pausenende</button>";
-  
-  if (($zustand == 'abwesend' || $zustand == 'arbeit' || $correctMode) && $buero == 'ja')
-    echo "<button onClick=\"clickAction('buero_beginn')\">Beginn Büroarbeit</button>";
-  
-  if (($zustand == 'buero' || $correctMode) && $buero == 'ja')
-    echo "<button onClick=\"clickAction('buero_ende')\">Ende Büro</button>";
+
+  $expectedActions = array ();
+  if ($zustand == 'abwesend' || $zustand == 'buero')
+    array_push ($expectedActions, "arbeit_beginn");
+  if ($zustand == 'arbeit')
+    {
+    array_push ($expectedActions, "arbeit_ende");
+    array_push ($expectedActions, "pause_beginn");
+    }
+  if ($zustand == 'pause')
+    array_push ($expectedActions, "pause_ende");
+  if ($buero == 'ja')
+    {
+    if ($zustand == 'abwesend' || $zustand == 'arbeit')
+      array_push ($expectedActions, "buero_beginn");
+    if ($zustand == 'buero')
+      array_push ($expectedActions, "buero_ende");
+    }
+
+  if ($correctMode)
+    {
+    $expectedText = enumerate ($expectedActions, ", ", " oder ", $allActions) + " ?";
+    echo "<span class='warnMsg'>Hinweis: Bitte das vergessene Stempeln ($expectedText) auf dem Zettel \"Korrekturen / Bemerkungen\" eintragen!</span><br><br>";
+    }
+
+  foreach ($allActions as $actKey => $actText)
+    {
+    if (in_array ($actKey, $expectedActions) || $correctMode)
+      echo "<button onClick=\"clickAction('$actKey')\">$actText</button>";
+    }
 
 ?>
 
