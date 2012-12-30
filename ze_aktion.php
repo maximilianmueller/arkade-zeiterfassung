@@ -65,17 +65,19 @@ echo <<<END_CODEEINGABE
   
 END_CODEEINGABE;
 
-  $allActions = array (
-    "arbeit_beginn" => "Arbeitsbeginn",
-    "arbeit_ende"   => "Arbeitsende",
-    "pause_beginn"  => "Pausenbeginn",
-    "pause_ende"    => "Pausenende"
-  );
+  $allActions = array ();
+  $allActions["arbeit_beginn"] = "Arbeitsbeginn";
+  $allActions["arbeit_ende"]   = "Arbeitsende";
+  $allActions["pause_beginn"]  = "Pausenbeginn";
+  $allActions["pause_ende"]    = "Pausenende";
   if ($buero == 'ja')
     {
     $allActions["buero_beginn"] = "Büro Beginn";
-    $allActions["buero_ende"]   = "Büro Ende";
+    $allActions["buero_ende"]   = "Büro & Arbeit beenden";
     }
+  # im zustand buero muss die aktion "arbeit_beginn" eine andere beschriftung bekommen:
+  if ($zustand == 'buero')
+    $allActions["arbeit_beginn"] = "Büro beenden";
 
   $expectedActions = array ();
   if ($zustand == 'abwesend' || $zustand == 'buero')
