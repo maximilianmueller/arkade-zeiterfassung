@@ -14,10 +14,13 @@ function enumerate ($array, $sep, $lastSep, $lookup)
     {
     $val = $array[$i];
     $val = $lookup ? $lookup[$val] : $val;
-    if ($lastSep && $i == $size - 1)
-      $val = $lastSep . $val;
-    else if ($sep && $i > 0)
-      $val = $sep . $val;
+    if ($i > 0)
+      {
+      if ($lastSep && $i == $size - 1)
+        $val = $lastSep . $val;
+      else if ($sep)
+        $val = $sep . $val;
+      }
     $result .= $val;
     }
   return $result;
