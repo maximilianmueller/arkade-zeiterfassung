@@ -85,11 +85,11 @@ class AZ_Eintrag {
 #
 #------------------------------------------------------------------------------
 
+# Ermittle alle Datensätze vom Typ 'arbeit' in azlog, die heute angelegt wurden und für die 
+# noch kein Ende eingetragen wurde  
 function gleicher_tag() {
   global $dbh, $mitarbeiter, $datum;
 
-  # Ermittle alle Datensätze vom Typ 'arbeit' in azlog, die heute angelegt wurden und für die 
-  # noch kein Ende eingetragen wurde  
   $sql = "select * from zeiterfassung.azlog";
   $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = 'arbeit'";
   $sql .= " and ende = '00:00:00';";
