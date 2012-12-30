@@ -476,7 +476,7 @@ mysql_close($dbh);
   <title>Zeit Eintragen</title>
   <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
   <?php if (!$error) { ?>
-    <meta http-equiv="refresh" content="2; URL=.">
+    <meta http-equiv="refresh" content="1; URL=.">
   <?php } ?>
 </head>
 <body>
