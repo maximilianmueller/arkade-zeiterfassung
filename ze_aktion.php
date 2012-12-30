@@ -2,19 +2,24 @@
 require "helpers.php";
 
 $mitarbeiter = $_POST['mitarbeiter'];
+$authHash = $_POST['authHash'];
 $correctMode = false;
 if (isset ($_POST['correctMode']) && $_POST['correctMode'] == "1")
   $correctMode = true;
 
 require "dbConfig.php";
 
-$sql = "select * from zeiterfassung.mitarbeiter where kuerzel = '".$mitarbeiter."'";
+$sql = "select * from zeiterfassung.mitarbeiter where kuerzel = '" . $mitarbeiter . "'";
 $dbh = mysql_connect($host, $user, $password);
 $res = mysql_query($sql, $dbh);
 $row = mysql_fetch_assoc($res);
-$zustand=$row['ze_zustand'];
-$buero=$row['buero'];
+$manummer = $row['manummer'];
+$zustand = $row['ze_zustand'];
+$buero = $row['buero'];
 mysql_close($dbh);
+
+if ($authHash != md5 ($mitarbeiter . "_authHash_" . (string) $manummer))
+  die ("Der eingegebene Code ist falsch.");
 
 echo <<<END_CODEEINGABE
 
@@ -47,10 +52,12 @@ echo <<<END_CODEEINGABE
 <body onLoad="show_time()">
  <form name="refreshForm" action="ze_aktion.php" method="POST">
    <input type="hidden" name="mitarbeiter" value="$mitarbeiter">
+   <input type="hidden" name="authHash" value="$authHash">
    <input type="hidden" name="correctMode" value="">
  </form>
  <form name="entryForm" action="zeit_eintragen.php" method="POST">
    <input type="hidden" name="mitarbeiter" value="$mitarbeiter">
+   <input type="hidden" name="authHash" value="$authHash">
    <input type="hidden" name="zustand" value="$zustand">
    <input type="hidden" name="aktion" value="">
  </form>

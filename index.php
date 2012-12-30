@@ -73,8 +73,9 @@ END_USER;
     </table>
   </div>
 
-  <form name="forwardForm" method="POST">
+  <form name="forwardForm" action="ze_aktion.php" method="POST">
     <input type="hidden" name="mitarbeiter" value="">
+    <input type="hidden" name="authHash" value="">
   </form>
   
 </body>
@@ -110,12 +111,12 @@ function del_digit ()
   }
 function clickOK ()
   {
-  var co = document.getElementById("eingabe");
-  var _checkHash = MD5 (mitarbeiter + "_checkHash_" + co.value);
+  var macode = document.getElementById("eingabe").value;
+  var _checkHash = MD5 (mitarbeiter + "_checkHash_" + macode);
   if (_checkHash == checkHash)
     {
-    document.forms["forwardForm"].action = "ze_aktion.php";
     document.forms["forwardForm"].elements["mitarbeiter"].value = mitarbeiter;
+    document.forms["forwardForm"].elements["authHash"].value = MD5 (mitarbeiter + "_authHash_" + macode);
     document.forms["forwardForm"].submit();
     }
   else
