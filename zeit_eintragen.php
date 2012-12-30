@@ -94,8 +94,7 @@ function gleicher_tag() {
   $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = 'arbeit'";
   $sql .= " and ende = '00:00:00';";
   $res = mysql_query($sql, $dbh);
-  if($res) return true;  
-  else return false;
+  return mysql_num_rows ($res) > 0;  
 }
   
 
@@ -112,7 +111,6 @@ function beginn_eintragen($typ, $beginn_null = true) {
   $sql .= " values ('".$datum."', '".$mitarbeiter."', '".$typ."', '".$beginn_zeit."');";
   $res = mysql_query($sql, $dbh);
   if($res) {
-    $error = false;
     return true;
   }
   else {
@@ -134,7 +132,6 @@ function ende_eintragen($typ, $anlegen = false) {
     $sql .= " and ende = '00:00:00' and dump_flag = 0;";
     $res = mysql_query($sql, $dbh);
     if($res) {
-      $error = false;
       return true;
     }
     else {
@@ -147,7 +144,6 @@ function ende_eintragen($typ, $anlegen = false) {
     $sql .= " values ('".$datum."', '".$mitarbeiter."', '".$typ."', '".$zeit."');";
     $res = mysql_query($sql, $dbh);
     if($res) {
-      $error = false;
       return true;
     }
     else {
@@ -165,7 +161,6 @@ function setze_zustand($zustand) {
   $sql = "update zeiterfassung.mitarbeiter set ze_zustand = '".$zustand."' where kuerzel = '".$mitarbeiter."';";
   $res = mysql_query($sql, $dbh);
   if($res) {
-    $error = false;
     return true;
   }
   else {
@@ -247,7 +242,6 @@ function schreibe_arbeitszeiten() {
   $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and dump_flag = 0";
   $res = mysql_query($sql, $dbh);
   if($res) {
-    $error = false;
     return true;
   }
   else {
