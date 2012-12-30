@@ -45,7 +45,7 @@ echo <<<END_CODEEINGABE
     function clickCancel ()
       {
       document.location.href = ".";
-      }   
+      }
   </script>
 </head>
 
