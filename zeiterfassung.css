@@ -34,8 +34,8 @@ universelle klassen
   margin: 1em;
   }
 
-.warnMsg {color:#808000;}
-.errorMsg {color:#600000;}
+.warnMsg {color:#FFFF00; font-weight: bold;}
+.errorMsg {color:#FF0000; font-weight: bold;}
 .successMsg {color:#008000;}
 
 /*
