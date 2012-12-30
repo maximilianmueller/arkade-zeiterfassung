@@ -101,14 +101,17 @@ function gleicher_tag() {
 }
   
 
-# Erzeugt einen neuen Datensatz in der Tabelle azlog und trägt die 'beginn' Zeit ein.
-# Der Typ wird übergeben. Die Werte 'mitarbeiter' und 'tag' und 'beginn' werden von den globalen
-# Werten übernommen.
-function beginn_eintragen($typ) {
+# Erzeugt einen neuen Datensatz in der Tabelle azlog und trägt die 'beginn' Zeit ein 
+# oder setzt diese auf "00:00:00". Der Typ wird übergeben. Die Werte 'mitarbeiter' und 
+# 'tag' und 'beginn' werden von den globalen Werten übernommen.
+function beginn_eintragen($typ, $beginn_null = true) {
   global $dbh, $error, $mitarbeiter, $datum, $zeit;
 
+  if($beginn_null) $beginn_zeit = $zeit;
+  else $beginn_zeit = "00:00:00";
+
   $sql = "insert into zeiterfassung.azlog (tag, kuerzel, typ, beginn)";
-  $sql .= " values ('".$datum."', '".$mitarbeiter."', '".$typ."', '".$zeit."');";
+  $sql .= " values ('".$datum."', '".$mitarbeiter."', '".$typ."', '".$beginn_zeit."');";
   $res = mysql_query($sql, $dbh);
   if($res) {
     $error = false;
@@ -272,6 +275,9 @@ switch($zustand) {
 
     switch($aktion) {
 
+      # -----------------
+      # Reguläre Aktionen
+      # -----------------
       case 'arbeit_beginn':
         beginn_eintragen('arbeit'); 
         setze_zustand('arbeit');
@@ -281,6 +287,32 @@ switch($zustand) {
         beginn_eintragen('arbeit');
         beginn_eintragen('buero'); 
         setze_zustand('buero');
+        break;    
+
+      # --------------------------
+      # Aktionen im Korrekturmodus
+      # --------------------------
+      case 'arbeit_ende':
+        ende_eintragen('arbeit', true);
+        schreibe_arbeitszeiten();
+        # Zustand 'abwesend' bleibt unverändert
+        break;
+
+      case 'buero_ende':
+        ende_eintragen('arbeit', true);
+        ende_eintragen('buero', true); 
+        schreibe_arbeitszeiten();
+        # Zustand 'abwesend' bleibt unverändert
+        break;    
+
+      case 'pause_beginn':
+        beginn_eintragen('arbeit', false); 
+        beginn_eintragen('pause'); 
+        setze_zustand('pause');
+        break;    
+
+      case 'pause_ende':
+        # to be done
         break;    
 
       default:
@@ -383,17 +415,29 @@ switch($zustand) {
 
     switch($aktion) {
  
+      # -----------------
+      # Reguläre Aktionen
+      # -----------------
       case 'buero_ende':
-        ende_eintragen('arbeit');
-        ende_eintragen('buero');
+        if(gleicher_tag()) {
+          ende_eintragen('arbeit');
+          ende_eintragen('buero');
+          schreibe_arbeitszeiten();
+        }
+        else {
+          # to be done
+        }
         setze_zustand('abwesend');
-        schreibe_arbeitszeiten();
         break;    
 
       case 'arbeit_beginn':
         ende_eintragen('buero'); 
         setze_zustand('arbeit');
         break;    
+
+      # --------------------------
+      # Aktionen im Korrekturmodus
+      # --------------------------
 
       default:
         break;
