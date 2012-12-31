@@ -510,30 +510,45 @@ mysql_close($dbh);
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Zeit Eintragen</title>
   <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
-  <?php if (!$error) { ?>
-    <meta http-equiv="refresh" content="1; URL=.">
-  <?php } ?>
 </head>
 
-<body>
+<body onLoad="<?php if ($error) { ?>handleCountdown ()<?php } ?>">
+  
   <?php if ($error) { ?>
-  
     <div class="errorMsg">Fehler bei der Zeiteintragung!</div>
-    <button onClick="clickStart()">Zum Startbildschirm</button>
-    
   <?php } else { ?>
-  
-    <div class="successMsg">Zeit erfolgreich eingetragen!</div>
-    Automatische Weiterleitung auf den Startbildschirm in wenigen Sekunden.
-    
+    <div class="successMsg">Zeit erfolgreich eingetragen:</div>
+    <?php echo $aktion; ?>, <?php echo $zeit; ?> für <?php echo $mitarbeiter; ?> eingetragen 
+    <br><br>
+    Automatische Weiterleitung auf den Startbildschirm in <span id="countdown">&nbsp;</span> Sekunden.
   <?php } ?>
+  
+  <br><button onClick="clickStart()">Zum Startbildschirm</button>
+  
 </body>
 
 <script type="text/javascript">
-  function clickStart ()
-    {
-    document.location.href = ".";
-    }
+
+var redirSeconds = 10;
+var start = new Date ().getTime ();
+
+function handleCountdown ()
+  {
+  var now = new Date ().getTime ();
+  var passedSeconds = Math.floor ((now - start) / 1000);
+  var leftSeconds = redirSeconds - passedSeconds;
+  document.getElementById ("countdown").innerHTML = leftSeconds;
+  if (leftSeconds <= 0)
+    clickStart ();
+  else
+    setTimeout ("handleCountdown ()", 1000);
+  }
+
+function clickStart ()
+  {
+  document.location.href = ".";
+  }
+  
 </script>
 
 </html>
