@@ -86,7 +86,7 @@ END_BLOCK;
         if ($correctMode)
           {
           $expectedText = enumerate ($expectedActions, ", ", " oder ", $allActions) . " ?";
-          echo "<span class='warnMsg'>Hinweis: Bitte das vergessene Stempeln ($expectedText) auf dem Zettel \"Korrekturen / Bemerkungen\" eintragen!</span><br><br>";
+          echo "<span class='warnMsg'>Hinweis: Bitte die vergessene Aktion ($expectedText) auf dem Zettel \"Korrekturen / Bemerkungen\" eintragen!</span><br><br>";
           }
         foreach ($allActions as $actKey => $actText)
           {
