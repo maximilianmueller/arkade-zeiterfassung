@@ -30,9 +30,11 @@ class AZ_Eintrag {
   public $buero;
   public $status;
 
-  function AZ_Eintrag($datum, $ma) {
-    $this->tag = $datum;
+  function AZ_Eintrag($ma) {
     $this->mitarbeiter = $ma;
+    $this->tag = "";
+    $this->beginn = "";
+    $this->ende = "";
     $this->pause = 0;
     $this->buero = 0;
     $this->status = "ok";
@@ -43,11 +45,11 @@ class AZ_Eintrag {
   
     $insert = "tag, kuerzel";
     $values = "'".$this->tag."', '".$this->mitarbeiter."'";
-    if($this->beginn != 0) {
+    if($this->beginn != "") {
       $insert .= ", beginn";
       $values .= ", '".$this->beginn."'";
     }
-    if($this->ende != 0) {
+    if($this->ende != "") {
       $insert .= ", ende";
       $values .= ", '".$this->ende."'";
     }
@@ -175,11 +177,11 @@ function setze_zustand($zustand) {
 # in den Zustand 'abwesend' zurückgekehrt wird oder im Fehlerfall. 
 # Kann mehrfach pro Tag aufgerufen werden.
 function schreibe_arbeitszeiten() {
-  global $dbh, $error, $mitarbeiter, $datum;
+  global $dbh, $error, $mitarbeiter;
 
   # Ermittle alle Datensätze, die noch nicht weggeschrieben wurden  
   $sql = "select * from zeiterfassung.azlog";
-  $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and dump_flag = 0";
+  $sql .= " where kuerzel = '".$mitarbeiter."' and dump_flag = 0";
   $res = mysql_query($sql, $dbh);
   if($res) {
     $count = mysql_num_rows($res);
@@ -190,12 +192,21 @@ function schreibe_arbeitszeiten() {
   }
   
   # Erzeuge eine Instanz der Klasse AZ_Eintrag
-  $eintrag = new AZ_Eintrag($datum, $mitarbeiter);
+  $eintrag = new AZ_Eintrag($mitarbeiter);
 
   # Gehe durch die Datensätze und trage die Werte in $eintrag ein
   for($i = 0; $i < $count; $i++) {
     $row[$i] = mysql_fetch_assoc($res);
 
+    $row_tag = $row[$i]['tag'];
+    if ($eintrag->tag == "")
+      $eintrag->tag = $row_tag;
+    else if ($eintrag->tag != $row_tag)
+      {
+      $error = true;
+      return false;
+      }
+    
     if($row[$i]['beginn'] == "00:00:00") $beginn_null = true;
     else $beginn_null = false;
     if($row[$i]['ende'] == "00:00:00") $ende_null = true;
@@ -239,7 +250,7 @@ function schreibe_arbeitszeiten() {
 
   # Setze das dump_flag
   $sql = "update zeiterfassung.azlog set dump_flag = 1";
-  $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and dump_flag = 0";
+  $sql .= " where kuerzel = '".$mitarbeiter."' and dump_flag = 0";
   $res = mysql_query($sql, $dbh);
   if($res) {
     return true;
