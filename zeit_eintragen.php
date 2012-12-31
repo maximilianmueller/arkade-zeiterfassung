@@ -512,7 +512,7 @@ mysql_close($dbh);
   <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
 </head>
 
-<body onLoad="<?php if ($error) { ?>handleCountdown ()<?php } ?>">
+<body onLoad="<?php if (!$error) { ?>handleCountdown ()<?php } ?>">
   
   <?php if ($error) { ?>
     <div class="errorMsg">Fehler bei der Zeiteintragung!</div>
