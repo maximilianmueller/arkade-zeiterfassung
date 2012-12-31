@@ -1,5 +1,7 @@
+<?php
+require "dbConfig.php";
+?>
 <!DOCTYPE HTML>
-<?php require "dbConfig.php"; ?>
 <html>
 
 <head>
@@ -28,7 +30,7 @@
     $manummer = $row['manummer'];
     $zustand = $row['ze_zustand'];
     $checkHash = md5 ($kuerzel . "_checkHash_" . (string) $manummer);
-    echo <<<END_USER
+echo <<<END_USER
     <input type="hidden" id="checkHash_$kuerzel" value="$checkHash">
     <a href="javascript:clickUser('$kuerzel')"><div class="userWrapper"><div class="userBox userBox_$zustand">
       $kuerzel<br><span class="userState">[$zustand]</span>
