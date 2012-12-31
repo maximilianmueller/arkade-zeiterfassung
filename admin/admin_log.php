@@ -11,7 +11,7 @@
 
 <?php include "navi.php"; ?>
 <br>
-<h3>Arkade Zeiterfassung Admin - Zeiterfassung Ausgabe</h3>
+<h3>Arkade Zeiterfassung Admin - Zeiterfassung Log</h3>
 
 <?php
 /*
@@ -38,10 +38,10 @@ $opts['hn'] = $host;
 $opts['un'] = $user;
 $opts['pw'] = $password;
 $opts['db'] = 'zeiterfassung';
-$opts['tb'] = 'azdump';
+$opts['tb'] = 'azlog';
 
 // Name of field which is the unique key
-$opts['key'] = 'dump_id';
+$opts['key'] = 'log_id';
 
 // Type of key field (int/real/string/date etc.)
 $opts['key_type'] = 'int';
@@ -56,7 +56,7 @@ $opts['inc'] = 20;
 // Options you wish to give the users
 // A - add,  C - change, P - copy, V - view, D - delete,
 // F - filter, I - initial sort suppressed
-$opts['options'] = 'ACPDF';
+$opts['options'] = 'VF';
 
 // Number of lines to display on multiple selection filters
 $opts['multiple'] = '4';
@@ -134,8 +134,8 @@ appear in generated list. Here are some most used field options documented.
   descriptions fields are also possible. Check documentation for this.
 */
 
-$opts['fdd']['dump_id'] = array(
-  'name'     => 'dump_id',
+$opts['fdd']['log_id'] = array(
+  'name'     => 'log_id',
   'select'   => 'T',
   'options'  => 'LR',
   'sort'     => true
@@ -151,6 +151,12 @@ $opts['fdd']['kuerzel'] = array(
   'select'   => 'T',
   'sort'     => true
 );
+$opts['fdd']['typ'] = array(
+  'name'     => 'typ',
+  'select'   => 'D',
+  'values'   => array('arbeit', 'pause', 'buero'),
+  'sort'     => true
+);
 $opts['fdd']['beginn'] = array(
   'name'     => 'Beginn',
   'select'   => 'T',
@@ -161,20 +167,10 @@ $opts['fdd']['ende'] = array(
   'select'   => 'T',
   'sort'     => true
 );
-$opts['fdd']['pause'] = array(
-  'name'     => 'Pause',
-  'select'   => 'T',
-  'sort'     => true
-);
-$opts['fdd']['buero'] = array(
-  'name'     => 'Büro',
-  'select'   => 'T',
-  'sort'     => true
-);
-$opts['fdd']['status'] = array(
-  'name'     => 'Status',
+$opts['fdd']['dump_flag'] = array(
+  'name'     => 'dump_flag',
   'select'   => 'D',
-  'values'   => array('ok', 'fehler', 'korrigiert'),
+  'values'   => array('0', '1'),
   'sort'     => true
 );
 
