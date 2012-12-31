@@ -5,10 +5,10 @@ generelle deklarationen
 
 body
   {
-  max-width: 815px;
   background-color: #404040;
   color: white;
   font-family: arial, helvetica, sans-serif;
+  font-size: 18pt;
   }
 
 a
@@ -30,7 +30,7 @@ universelle klassen
 div.headline
   {
   text-align:center; 
-  font-size:18pt;
+  font-size:20pt;
   margin: 1em;
   }
 
@@ -44,8 +44,8 @@ user boxen auf der übersichtsseite
 
 .userBox
   {
-  width: 12em;
-  height: 5em;
+  width: 224px;
+  height: 95px;
   text-align:center;
   border: 1px solid;
   border-color: white;
@@ -67,7 +67,7 @@ user boxen auf der übersichtsseite
 .userBox_krank { background-color: #600000;}
 .userBox_schule { background-color: #008080;}
 
-.userState {font-size: 80%;}
+.userState {font-size: 12pt;}
 
 /*
 zehnertastatur
