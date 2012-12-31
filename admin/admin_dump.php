@@ -174,8 +174,15 @@ $opts['fdd']['buero'] = array(
 $opts['fdd']['status'] = array(
   'name'     => 'Status',
   'select'   => 'D',
-  'values'   => array('ok', 'fehler', 'korrigiert'),
+  'values'   => array('korrigiert'),
   'sort'     => true
+);
+$opts['fdd']['bemerkung'] = array(
+  'name'     => 'Bemerkung',
+  'select'   => 'T',
+  'textarea' => array(
+    'rows' => 10,
+    'cols' => 50)
 );
 
 // Now important call to phpMyEdit
