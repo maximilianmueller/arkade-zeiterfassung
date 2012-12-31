@@ -47,7 +47,7 @@ $opts['key'] = 'kuerzel';
 $opts['key_type'] = 'string';
 
 // Sorting field(s)
-$opts['sort_field'] = array('nachname', 'vorname');
+$opts['sort_field'] = array('kuerzel');
 
 // Number of records to display on the screen
 // Value of -1 lists all records in a table
@@ -134,9 +134,10 @@ appear in generated list. Here are some most used field options documented.
   descriptions fields are also possible. Check documentation for this.
 */
 
-$opts['fdd']['nachname'] = array(
-  'name'     => 'Nachname',
+$opts['fdd']['kuerzel'] = array(
+  'name'     => 'Kürzel',
   'select'   => 'T',
+  'options'  => 'LAP',
   'sort'     => true
 );
 $opts['fdd']['vorname'] = array(
@@ -144,10 +145,9 @@ $opts['fdd']['vorname'] = array(
   'select'   => 'T',
   'sort'     => true
 );
-$opts['fdd']['kuerzel'] = array(
-  'name'     => 'Kürzel',
+$opts['fdd']['nachname'] = array(
+  'name'     => 'Nachname',
   'select'   => 'T',
-  'options'  => 'LAP',
   'sort'     => true
 );
 $opts['fdd']['manummer'] = array(
