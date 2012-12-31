@@ -20,6 +20,7 @@ require "dbConfig.php";
 <body onLoad="show_time()">
   
   <div class="headline">Arkade Zeiterfassung</div>
+  
   <?php
   $sql = "select * from zeiterfassung.mitarbeiter";
   $dbh = mysql_connect($host, $user, $password);
@@ -30,15 +31,18 @@ require "dbConfig.php";
     $manummer = $row['manummer'];
     $zustand = $row['ze_zustand'];
     $checkHash = md5 ($kuerzel . "_checkHash_" . (string) $manummer);
-echo <<<END_USER
+
+echo <<<END_BLOCK
     <input type="hidden" id="checkHash_$kuerzel" value="$checkHash">
     <a href="javascript:clickUser('$kuerzel')"><div class="userWrapper"><div class="userBox userBox_$zustand">
       $kuerzel<br><span class="userState">[$zustand]</span>
     </div></div></a>
-END_USER;
+END_BLOCK;
+
     }
   mysql_close($dbh);
   ?>
+  
   <div class="headline" id="acttime">&nbsp;</div>
 
   <div id="zehnertastatur">
