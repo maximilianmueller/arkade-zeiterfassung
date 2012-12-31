@@ -27,7 +27,7 @@ button
 universelle klassen
 */
 
-.headline
+div.headline
   {
   text-align:center; 
   font-size:18pt;
@@ -89,3 +89,17 @@ zehnertastatur
  padding:2px;
  margin:2px;
 }
+
+/*
+monatstabelle
+*/
+table.monthTimesheet td
+  {
+  border: 1px solid;
+  border-color: white;
+  padding: 5px;
+  }
+table.monthTimesheet
+  {
+  border-collapse: collapse;
+  }
