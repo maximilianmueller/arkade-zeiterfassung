@@ -103,10 +103,10 @@ function gleicher_tag() {
 # Erzeugt einen neuen Datensatz in der Tabelle azlog und trägt die 'beginn' Zeit ein 
 # oder setzt diese auf "00:00:00". Der Typ wird übergeben. Die Werte 'mitarbeiter' und 
 # 'tag' und 'beginn' werden von den globalen Werten übernommen.
-function beginn_eintragen($typ, $beginn_null = true) {
+function beginn_eintragen($typ, $mit_zeit = true) {
   global $dbh, $error, $mitarbeiter, $datum, $zeit;
 
-  if($beginn_null) $beginn_zeit = $zeit;
+  if($mit_zeit) $beginn_zeit = $zeit;
   else $beginn_zeit = "00:00:00";
 
   $sql = "insert into zeiterfassung.azlog (tag, kuerzel, typ, beginn)";
@@ -368,7 +368,9 @@ switch($zustand) {
           beginn_eintragen('pause'); 
         }
         else {
-        # to be done  
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit', false); 
+          beginn_eintragen('pause'); 
         }
         setze_zustand('pause');
         break;    
@@ -433,7 +435,10 @@ switch($zustand) {
           schreibe_arbeitszeiten();
         }
         else {
-          # to be done
+          schreibe_arbeitszeiten();
+          ende_eintragen('arbeit', true);
+          ende_eintragen('buero', true);
+          schreibe_arbeitszeiten();
         }
         setze_zustand('abwesend');
         break;    
