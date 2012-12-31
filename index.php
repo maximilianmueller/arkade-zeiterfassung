@@ -47,7 +47,9 @@ END_BLOCK;
 
   <div id="zehnertastatur">
     Bitte Code für <span id="mitarbeiterName">&nbsp;</span> eingeben!
+    <br><br>
     <table class="zehnertastatur">
+      <!--
       <tr>
         <td><button onclick="add_digit('1')">1</button></td>
         <td><button onclick="add_digit('2')">2</button></td>
@@ -75,8 +77,21 @@ END_BLOCK;
         <td colspan="2"><button onclick="clickCancel()">Abbruch</button></td>
       </tr>
       <tr>
-        <td colspan="3"><input type="text" maxlength="4" id="eingabe"></td>
+        <td colspan="3"><input type="number" maxlength="4" id="eingabe"></td>
         <td colspan="2"><button id="okButton" onclick="clickOK()">OK</button></td>
+      </tr>
+      -->
+      <tr>
+        <td colspan="3"><input type="number" maxlength="4" id="eingabe"></td>
+        <td><button onclick="clickCancel()">Abbruch</button></td>
+        <td><button id="okButton" onclick="clickOK()">OK</button></td>
+      </tr>
+      <tr>
+        <td style="height: 5px;"></td>
+        <td style="height: 5px;"></td>
+        <td style="height: 5px;"></td>
+        <td style="height: 5px;"></td>
+        <td style="height: 5px;"></td>
       </tr>
     </table>
   </div>
@@ -98,6 +113,7 @@ jq("#zehnertastatur").dialog({
   width: "480px",
   modal: true
 });
+jq(".ui-dialog-titlebar").hide() 
 
 function keyDown (_event)
   {
@@ -122,33 +138,40 @@ function handleKeyDown (keyCode)
     add_digit (keyCode - 96);
   else if (keyCode == 8) // backspace
     del_digit ();
+  else if (keyCode == 13) // backspace
+    clickOK ();
   else
     return true; // event NICHT behandelt => true returnen, damit default-handling greift
   return false; // event behandelt => false returnen, damit default-handling NICHT greift
   }
+
+var eingabe = document.getElementById("eingabe");
 
 function clickUser (kuerzel)
   {
   mitarbeiter = kuerzel;
   checkHash = document.getElementById("checkHash_" + kuerzel).value;
   jq("#mitarbeiterName").text(kuerzel);
-  document.getElementById("eingabe").value = "";
+  eingabe.value = "";
   jq("#zehnertastatur").dialog("open");
-  jq("#okButton").focus();
+  
+  //jq("#okButton").focus();
+  jq("#eingabe").focus();
   }
+
 function add_digit (digit)
   {
-  var eingabe = document.getElementById("eingabe");
   eingabe.value = eingabe.value + digit;
   }
+  
 function del_digit ()
   {
-  var eingabe = document.getElementById("eingabe");
   eingabe.value = eingabe.value.substring(0, eingabe.value.length-1);
   }
+  
 function clickOK ()
   {
-  var macode = document.getElementById("eingabe").value;
+  var macode = eingabe.value;
   var _checkHash = MD5 (mitarbeiter + "_checkHash_" + macode);
   if (_checkHash == checkHash)
     {
