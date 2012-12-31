@@ -2367,10 +2367,10 @@ function '.$this->js['prefix'].'filter_handler(theForm, theEvent)
 				$copyQuery   = $qpcopyStr   . $queryAppend;
 				$changeQuery = $qpchangeStr . $queryAppend;
 				$deleteQuery = $qpdeleteStr . $queryAppend;
-				$viewTitle   = htmlspecialchars($this->labels['View']);
-				$changeTitle = htmlspecialchars($this->labels['Change']);
-				$copyTitle   = htmlspecialchars($this->labels['Copy']);
-				$deleteTitle = htmlspecialchars($this->labels['Delete']);
+				$viewTitle   = ($this->labels['View']);
+				$changeTitle = ($this->labels['Change']);
+				$copyTitle   = ($this->labels['Copy']);
+				$deleteTitle = ($this->labels['Delete']);
 				$css_class_name = $this->getCSSclass('navigation', null, true);
 				if ($select_recs) {
 					if (! $this->nav_buttons() || $sys_cols > 1) {
@@ -2380,34 +2380,34 @@ function '.$this->js['prefix'].'filter_handler(theForm, theEvent)
 						$printed_out = false;
 						if ($this->view_enabled()) {
 							$printed_out = true;
-							echo '<a class="',$css_class_name,'" href="',$viewQuery,'"><img class="';
+							echo '<a class="',$css_class_name,'" href="',$viewQuery,'" title="',$viewTitle,'"><img class="';
 							echo $css_class_name,'" src="',$this->url['images'];
 							echo 'pme-view.png" height="15" width="16" border="0" ';
-							echo 'alt="',$viewTitle,'" title="',$viewTitle,'" /></a>';
+							echo 'alt="',$viewTitle,'" /></a>';
 						}
 						if ($this->change_enabled()) {
 							$printed_out && print('&nbsp;');
 							$printed_out = true;
-							echo '<a class="',$css_class_name,'" href="',$changeQuery,'"><img class="';
+							echo '<a class="',$css_class_name,'" href="',$changeQuery,'" title="',$changeTitle,'"><img class="';
 							echo $css_class_name,'" src="',$this->url['images'];
 							echo 'pme-change.png" height="15" width="16" border="0" ';
-							echo 'alt="',$changeTitle,'" title="',$changeTitle,'" /></a>';
+							echo 'alt="',$changeTitle,'" /></a>';
 						}
 						if ($this->copy_enabled()) {
 							$printed_out && print('&nbsp;');
 							$printed_out = true;
-							echo '<a class="',$css_class_name,'" href="',$copyQuery,'"><img class="';
+							echo '<a class="',$css_class_name,'" href="',$copyQuery,'" title="',$copyTitle,'"><img class="';
 							echo $css_class_name,'" src="',$this->url['images'];
 							echo 'pme-copy.png" height="15" width="16" border="0" ';
-							echo 'alt="',$copyTitle,'" title="',$copyTitle,'" /></a>';
+							echo 'alt="',$copyTitle,'" /></a>';
 						}
 						if ($this->delete_enabled()) {
 							$printed_out && print('&nbsp;');
 							$printed_out = true;
-							echo '<a class="',$css_class_name,'" href="',$deleteQuery,'"><img class="';
+							echo '<a class="',$css_class_name,'" href="',$deleteQuery,'" title="',$deleteTitle,'"><img class="';
 							echo $css_class_name,'" src="',$this->url['images'];
 							echo 'pme-delete.png" height="15" width="16" border="0" ';
-							echo 'alt="',$deleteTitle,'" title="',$deleteTitle,'" /></a>';
+							echo 'alt="',$deleteTitle,'" /></a>';
 						}
 					}
 					if ($this->nav_text_links()) {
