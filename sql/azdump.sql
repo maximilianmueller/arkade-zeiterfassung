@@ -9,6 +9,7 @@ create table if not exists zeiterfassung.azdump(
   pause time,
   buero time,
   status enum("ok", "fehler", "korrigiert") default "ok",
+  bemerkung varchar(4000) DEFAULT NULL,
   key azdump_tag_kuerzel (tag, kuerzel)
 );
 
