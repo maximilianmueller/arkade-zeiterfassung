@@ -10,6 +10,7 @@ $error = false;
 # Datum und Uhrzeit ermitteln
 $datum = date("Y:m:d");
 $zeit = date("H:i:s");
+$zeit_minuten = date("H:i");
 
 # Mit Datenbank verbinden
 require "dbConfig.php";
@@ -518,7 +519,7 @@ mysql_close($dbh);
   <?php if ($error) { ?>
     <div class="errorMsg">Fehler bei der Zeiteintragung!</div>
   <?php } else { ?>
-    <div class="successMsg"><?php echo $actionNames["$aktion"]; ?> <?php echo $zeit; ?> für <?php echo $mitarbeiter; ?> eingetragen.</div>
+    <div class="successMsg"><?php echo $actionNames["$aktion"]; ?> <?php echo $zeit_minuten; ?> für <?php echo $mitarbeiter; ?> eingetragen.</div>
     <br><br>
     Automatische Weiterleitung auf den Startbildschirm in <span id="countdown">&nbsp;</span> Sekunden.
   <?php } ?>
