@@ -55,14 +55,14 @@ END_BLOCK;
         Bitte Aktion für <?php echo $mitarbeiter; ?> auswählen!<br><br>
         <?php
         $allActions = array ();
-        $allActions["arbeit_beginn"] = "Arbeitsbeginn";
-        $allActions["pause_beginn"]  = "Pausenbeginn";
-        $allActions["pause_ende"]    = "Pausenende";
-        $allActions["arbeit_ende"]   = "Arbeitsende";
+        $allActions["arbeit_beginn"] = $actionNames["arbeit_beginn"];
+        $allActions["pause_beginn"]  = $actionNames["pause_beginn"];
+        $allActions["pause_ende"]    = $actionNames["pause_ende"];
+        $allActions["arbeit_ende"]   = $actionNames["arbeit_ende"];
         if ($buero == 'ja')
           {
-          $allActions["buero_beginn"] = "Büro Beginn";
-          $allActions["buero_ende"]   = "Büro & Arbeit beenden";
+          $allActions["buero_beginn"] = $actionNames["buero_beginn"];
+          $allActions["buero_ende"]   = $actionNames["buero_ende"];
           }
       
         $expectedActions = array ();

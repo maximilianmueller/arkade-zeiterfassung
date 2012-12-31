@@ -1,4 +1,5 @@
 <?php
+require "helpers.php";
 
 # Globale Variablen auslesen bzw. initialisieren
 $mitarbeiter = $_POST['mitarbeiter'];
@@ -517,8 +518,7 @@ mysql_close($dbh);
   <?php if ($error) { ?>
     <div class="errorMsg">Fehler bei der Zeiteintragung!</div>
   <?php } else { ?>
-    <div class="successMsg">Zeit erfolgreich eingetragen:</div>
-    <?php echo $aktion; ?>, <?php echo $zeit; ?> für <?php echo $mitarbeiter; ?> eingetragen 
+    <div class="successMsg"><?php echo $actionNames["$aktion"]; ?> <?php echo $zeit; ?> für <?php echo $mitarbeiter; ?> eingetragen.</div>
     <br><br>
     Automatische Weiterleitung auf den Startbildschirm in <span id="countdown">&nbsp;</span> Sekunden.
   <?php } ?>

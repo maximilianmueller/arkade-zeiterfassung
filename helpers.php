@@ -26,4 +26,13 @@ function enumerate ($array, $sep, $lastSep, $lookup)
   return $result;
   }
 
+$actionNames = array (
+  "arbeit_beginn" => "Arbeitsbeginn",
+  "pause_beginn"  => "Pausenbeginn",
+  "pause_ende"    => "Pausenende",
+  "arbeit_ende"   => "Arbeitsende",
+  "buero_beginn"  => "Büro Beginn",
+  "buero_ende"    => "Büro & Arbeit beenden"
+);
+
 ?>
