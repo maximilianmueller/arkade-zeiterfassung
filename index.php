@@ -95,7 +95,7 @@ var mitarbeiter;
 
 jq("#zehnertastatur").dialog({
   autoOpen: false,
-  width: "460px",
+  width: "480px",
   modal: true
 });
 
