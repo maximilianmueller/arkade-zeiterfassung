@@ -55,11 +55,11 @@ class AZ_Eintrag {
     }
     if($this->pause != 0) {
       $insert .= ", pause";
-      $values .= ", '".date("H:i:s", $this->pause)."'";
+      $values .= ", '".gmdate("H:i:s", $this->pause)."'";
     }
     if($this->buero != 0) {
       $insert .= ", buero";
-      $values .= ", '".date("H:i:s", $this->buero)."'";
+      $values .= ", '".gmdate("H:i:s", $this->buero)."'";
     }
     if($this->status != "ok") {
       $insert .= ", status";
