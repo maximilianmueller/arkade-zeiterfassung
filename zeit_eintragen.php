@@ -131,9 +131,22 @@ function ende_eintragen($typ, $anlegen = false) {
   global $dbh, $error, $mitarbeiter, $datum, $zeit;
 
   if(!$anlegen) {
-    $sql = "update zeiterfassung.azlog set ende = '".$zeit."'";
+    # Wenn der Typ gleich 'pause' ist, können mehrere offene Pausenintervalle vorliegen.
+    # In diesem Fall das letzte aussuchen. Kann theoretisch auch für Typ 'buero' vorkommen.
+    $sql = "select MAX(log_id) from zeiterfassung.azlog";
     $sql .= " where kuerzel = '".$mitarbeiter."' and tag = '".$datum."' and typ = '".$typ."'";
     $sql .= " and ende = '00:00:00' and dump_flag = 0;";
+    $res = mysql_query($sql, $dbh);
+    if(!$res) {
+      $error = true;
+      return false;
+    }
+
+    $row = mysql_fetch_assoc($res);
+    $log_id = $row['MAX(log_id)'];
+
+    $sql = "update zeiterfassung.azlog set ende = '".$zeit."'";
+    $sql .= " where log_id = ".$log_id.";";
     $res = mysql_query($sql, $dbh);
     if($res) {
       return true;
@@ -318,8 +331,9 @@ switch($zustand) {
         break;    
 
       case 'pause_ende':
-        # to be done
-        $error = true;
+        beginn_eintragen('arbeit', false); 
+        ende_eintragen('pause', true); 
+        setze_zustand('arbeit');
         break;    
 
       default:
@@ -406,8 +420,9 @@ switch($zustand) {
           ende_eintragen('pause', true); 
         }
         else {
-        # to be done  
-        $error = true;
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit'); 
+          ende_eintragen('pause', true); 
         }
         # zustand 'arbeit' bleibt unverändert
         break;    
@@ -431,6 +446,7 @@ switch($zustand) {
       # Reguläre Aktionen
       # -----------------
       case 'buero_ende':
+      case 'arbeit_ende':
         if(gleicher_tag()) {
           ende_eintragen('arbeit');
           ende_eintragen('buero');
@@ -453,6 +469,41 @@ switch($zustand) {
       # --------------------------
       # Aktionen im Korrekturmodus
       # --------------------------
+      case 'buero_beginn':
+        if(gleicher_tag()) {
+          beginn_eintragen('buero'); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit'); 
+          beginn_eintragen('buero'); 
+        }
+        setze_zustand('buero');
+        break;    
+
+      case 'pause_beginn':
+        if(gleicher_tag()) {
+          beginn_eintragen('pause'); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit', false); 
+          beginn_eintragen('pause'); 
+        }
+        setze_zustand('pause');
+        break;
+
+      case 'pause_ende':
+        if(gleicher_tag()) {
+          ende_eintragen('pause', true); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit'); 
+          ende_eintragen('pause', true); 
+        }
+        setze_zustand('arbeit');
+        break;    
 
       default:
         $error = true;
@@ -479,6 +530,12 @@ switch($zustand) {
       # --------------------------
       # Aktionen im Korrekturmodus
       # --------------------------
+      case 'arbeit_beginn':
+        schreibe_arbeitszeiten();
+        beginn_eintragen('arbeit');
+        setze_zustand('arbeit');
+        break;
+
       case 'arbeit_ende':
         if(gleicher_tag()) {
           ende_eintragen('arbeit');
@@ -491,6 +548,45 @@ switch($zustand) {
         }
         setze_zustand('abwesend');
         break;
+
+      case 'buero_beginn':
+        if(gleicher_tag()) {
+          beginn_eintragen('buero'); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit'); 
+          beginn_eintragen('buero'); 
+        }
+        setze_zustand('buero');
+        break;    
+
+      case 'buero_ende':
+        if(gleicher_tag()) {
+          ende_eintragen('arbeit');
+          ende_eintragen('buero', true); 
+          schreibe_arbeitszeiten();
+        }
+        else {
+          schreibe_arbeitszeiten();
+          ende_eintragen('arbeit', true); 
+          ende_eintragen('buero', true); 
+          schreibe_arbeitszeiten();
+        }
+        setze_zustand('abwesend');
+        break;    
+
+      case 'pause_beginn':
+        if(gleicher_tag()) {
+          beginn_eintragen('pause'); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit', false); 
+          beginn_eintragen('pause'); 
+        }
+        setze_zustand('pause');
+        break;    
 
       default:
         $error = true;
