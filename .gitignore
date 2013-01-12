@@ -1,4 +1,7 @@
 backup/full_backup/
 backup/binary_logs/
+.htpasswd
+dbconfig.php
+sql/mitarbeiter_data.sql
 
 
