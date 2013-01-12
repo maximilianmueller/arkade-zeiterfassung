@@ -41,7 +41,6 @@ $res = mysql_query($sql, $dbh);
 if(!$res) {
 }
 
-
 while($row = mysql_fetch_assoc($res)) {
   $output = "T ".$row['tag'];
   $output .= " M ".$row['kuerzel'];
