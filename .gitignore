@@ -1,3 +1,4 @@
-backup/full_backup
-backup/binary_logs
+backup/full_backup/
+backup/binary_logs/
+
 
