@@ -63,7 +63,7 @@ $opts['multiple'] = '4';
 
 // Navigation style: B - buttons (default), T - text links, G - graphic links
 // Buttons position: U - up, D - down (default)
-$opts['navigation'] = 'GD';
+$opts['navigation'] = 'UGD';
 
 // Display special page elements
 $opts['display'] = array(
@@ -146,11 +146,13 @@ $opts['fdd']['tag'] = array(
   'datemask' => 'Y-m-d',
   'sort'     => true
 );
-$opts['fdd']['kuerzel'] = array(
-  'name'     => 'Kürzel',
-  'select'   => 'T',
-  'sort'     => true
-);
+
+$opts['fdd']['kuerzel']['name'] = 'Kuerzel';
+$opts['fdd']['kuerzel']['select'] = 'D';
+$opts['fdd']['kuerzel']['sort'] = true;
+$opts['fdd']['kuerzel']['values']['table'] = 'mitarbeiter';
+$opts['fdd']['kuerzel']['values']['column'] = 'kuerzel';
+
 $opts['fdd']['beginn'] = array(
   'name'     => 'Beginn',
   'select'   => 'T',
