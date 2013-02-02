@@ -15,10 +15,10 @@
 
 <?php 
 $monat = date("n");
-#if($monat == 1) $monat = 12;
-#else $monat = $monat - 1;
+if($monat == 1) $monat = 12;
+else $monat = $monat - 1;
 $jahr = date("Y");
-#if($monat ==12) $jahr = $jahr - 1;
+if($monat ==12) $jahr = $jahr - 1;
 ?>
 
 
