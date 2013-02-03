@@ -94,7 +94,7 @@ while($row = mysql_fetch_assoc($resd)) {
   $output = "M ".$row['kuerzel'];
   $output .= " T ".$row['typ'];
   if(!($row['beginn'] == null)) $output .= " B ".$row['beginn'];
-  if(!($row['ende'] == null)) $output .= " E ".$row['ende'];
+  if(!(($row['ende'] == null) || ($row['ende'] == "0000-00-00"))) $output .= " E ".$row['ende'];
   if(!($row['bemerkung'] == null)) {
     $bemerkung = implode("&%&", explode(" ", $row['bemerkung']));
     $output .= " R ".$bemerkung;
