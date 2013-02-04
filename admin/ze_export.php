@@ -111,6 +111,7 @@ fclose($fh);
 
 ?>
 
+<div class="successMsg">Export ausgeführt !</div>
 
 </body>
 </html>
