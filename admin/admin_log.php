@@ -56,7 +56,7 @@ $opts['inc'] = 20;
 // Options you wish to give the users
 // A - add,  C - change, P - copy, V - view, D - delete,
 // F - filter, I - initial sort suppressed
-$opts['options'] = 'CDF';
+$opts['options'] = 'F';
 
 // Number of lines to display on multiple selection filters
 $opts['multiple'] = '4';
