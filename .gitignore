@@ -1,4 +1,6 @@
-backup/
+backup/full_backup
+backup/binary_logs
+backup/ze_backup_paths.bat
 .htpasswd
 dbconfig.php
 sql/mitarbeiter_data.sql
