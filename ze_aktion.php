@@ -27,8 +27,11 @@ echo <<<END_BLOCK
 <head>
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
   <title>Aktion</title>
-  <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
+  
+	<script type="text/javascript" src="jquery/js/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="zeiterfassung.js"></script>
+	
+  <link rel="stylesheet" type="text/css" href="zeiterfassung.css"/>
 </head>
 
 <body onLoad="show_time()">
@@ -92,7 +95,7 @@ END_BLOCK;
           {
           $isExpected = in_array ($actKey, $expectedActions);
           if ($isExpected && !$correctMode || $correctMode && !$isExpected)
-            echo "<button onClick=\"clickAction('$actKey')\">$actText</button>";
+            echo "<button class='actionButton' id='actionButton_$actKey' onClick=\"clickAction('$actKey')\">$actText</button>";
           }
         ?>
         <br><br>
@@ -163,6 +166,8 @@ END_BLOCK;
     }
   function clickAction (actionName)
     {
+    jq(".actionButton").prop("disabled", true);
+    jq("#actionButton_" + actionName).text("Bitte warten ...");
     document.forms["entryForm"].elements["aktion"].value = actionName;
     document.forms["entryForm"].submit();
     }
