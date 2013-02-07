@@ -12,7 +12,17 @@
 function doLogout ()
   {
   alert ("Sie werden jetzt ausgeloggt. Bitte anschlieﬂend das Fenster schlieﬂen.")
-  window.location.href = "//logout@" + window.location.host + window.location.pathname;
+  if (document.execCommand && document.queryCommandSupported && document.queryCommandSupported("ClearAuthenticationCache"))
+    {
+    // clear HTTP Authentication (e.g. in IE)
+    document.execCommand("ClearAuthenticationCache");
+    window.location.href = "//" + window.location.host + window.location.pathname;
+    }
+  else
+    {
+    // use invalid username
+    window.location.href = "//logout@" + window.location.host + window.location.pathname;
+    }
   }
 
 </script>
