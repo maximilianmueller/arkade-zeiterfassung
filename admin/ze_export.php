@@ -113,5 +113,8 @@ fclose($fh);
 
 <div class="successMsg">Export ausgeführt !</div>
 
+<br><a href="<?php echo $dateiname ?>">Link zur Export-Datei</a>
+<span class="smallMessage">(mit der rechten Maustaste anklicken und dann "Ziel speichern unter..." auswählen)</span>
+
 </body>
 </html>

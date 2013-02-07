@@ -37,6 +37,7 @@ div.headline
 .warnMsg {color:#FFFF00; font-weight: bold;}
 .errorMsg {color:#FF0000; font-weight: bold;}
 .successMsg {color:#00FF00;}
+.smallMessage {font-size: 12pt;}
 
 /*
 user boxen auf der übersichtsseite
