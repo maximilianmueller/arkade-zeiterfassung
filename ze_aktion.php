@@ -100,12 +100,12 @@ END_BLOCK;
         ?>
         <br><br>
         <?php if (!$correctMode) { ?>
-          <button onClick="clickOtherActions()">Andere Aktionen ?</button>
+          <button class='actionButton' onClick="clickOtherActions()">Andere Aktionen ?</button>
         <?php } ?>
         <?php if (!$showTimes) { ?>
-          <button onClick="clickShowTimes()">Zeiten anzeigen</button>
+          <button class='actionButton' onClick="clickShowTimes()">Zeiten anzeigen</button>
         <?php } ?>
-        <button onClick="clickCancel()">Abbruch</button>
+        <button class='actionButton' onClick="clickCancel()">Abbruch</button>
       </td>
       
       <td valign="top" style="padding-left: 25px;">
