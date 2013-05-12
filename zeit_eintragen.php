@@ -527,6 +527,24 @@ switch($zustand) {
         setze_zustand('arbeit');
         break;    
 
+      
+      # -------------------
+      # buero_beginn aus pause heraus kann reguläre oder korrekturmodus-aktion sein
+      # -------------------
+      case 'buero_beginn':
+        if(gleicher_tag()) {
+          ende_eintragen('pause');
+          beginn_eintragen('buero'); 
+        }
+        else {
+          schreibe_arbeitszeiten();
+          beginn_eintragen('arbeit'); 
+          beginn_eintragen('buero'); 
+        }
+        setze_zustand('buero');
+        break;
+
+
       # --------------------------
       # Aktionen im Korrekturmodus
       # --------------------------
@@ -547,18 +565,6 @@ switch($zustand) {
           schreibe_arbeitszeiten();
         }
         setze_zustand('abwesend');
-        break;
-
-      case 'buero_beginn':
-        if(gleicher_tag()) {
-          beginn_eintragen('buero'); 
-        }
-        else {
-          schreibe_arbeitszeiten();
-          beginn_eintragen('arbeit'); 
-          beginn_eintragen('buero'); 
-        }
-        setze_zustand('buero');
         break;    
 
       case 'buero_ende':

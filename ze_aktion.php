@@ -80,7 +80,7 @@ END_BLOCK;
           array_push ($expectedActions, "pause_ende");
         if ($buero == 'ja')
           {
-          if ($zustand == 'abwesend' || $zustand == 'arbeit')
+          if ($zustand == 'abwesend' || $zustand == 'arbeit' || $zustand == 'pause')
             array_push ($expectedActions, "buero_beginn");
           if ($zustand == 'buero')
             array_push ($expectedActions, "buero_ende");
