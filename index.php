@@ -32,12 +32,15 @@ require "dbConfig.php";
     $zustand = $row['ze_zustand'];
     $checkHash = md5 ($kuerzel . "_checkHash_" . (string) $manummer);
 
+    if ($zustand && $zustand != "")
+      {
 echo <<<END_BLOCK
     <input type="hidden" id="checkHash_$kuerzel" value="$checkHash">
     <a href="javascript:clickUser('$kuerzel')"><div class="userWrapper"><div class="userBox userBox_$zustand">
       $kuerzel<br><span class="userState">[$zustand]</span>
     </div></div></a>
 END_BLOCK;
+      }
 
     }
   mysql_close($dbh);

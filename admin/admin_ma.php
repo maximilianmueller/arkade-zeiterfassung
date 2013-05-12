@@ -180,7 +180,7 @@ $opts['fdd']['buero'] = array(
 $opts['fdd']['ze_zustand'] = array(
   'name'     => 'ZE Zustand',
   'select'   => 'D',
-  'values'   => array('abwesend', 'arbeit', 'pause', 'buero', 'urlaub', 'krank', 'schule'),
+  'values'   => array('abwesend', 'arbeit', 'pause', 'buero', 'urlaub', 'krank', 'schule', ''),
   'sort'     => true
 );
 
