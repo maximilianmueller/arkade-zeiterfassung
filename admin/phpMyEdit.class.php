@@ -3276,8 +3276,10 @@ function '.$this->js['prefix'].'filter_handler(theForm, theEvent)
 		}
 		$this->buttons = $opts['buttons'];
 		// Language labels (must go after navigation)
-		$this->labels = $this->make_language_labels(isset($opts['language'])
-				? $opts['language'] : $this->get_server_var('HTTP_ACCEPT_LANGUAGE'));
+		$selected_lang = isset($opts['language']) ? $opts['language'] : $this->get_server_var('HTTP_ACCEPT_LANGUAGE');
+		if (preg_match('/[,;]/', $selected_lang))
+		  $selected_lang = preg_split('/[,;]/', $selected_lang)[0];
+		$this->labels = $this->make_language_labels($selected_lang);
 		// CGI variables
 		$this->cgi = @$opts['cgi'];
 		$this->cgi['persist'] = '';
