@@ -11,6 +11,8 @@
 
 function doLogout ()
   {
+  if (!confirm ("wirklich ausloggen ?"))
+    return;
   alert ("Sie werden jetzt ausgeloggt. Bitte anschlieﬂend das Fenster schlieﬂen.")
   if (document.execCommand && document.queryCommandSupported && document.queryCommandSupported("ClearAuthenticationCache"))
     {
