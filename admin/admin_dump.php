@@ -177,6 +177,7 @@ $opts['fdd']['status'] = array(
   'name'     => 'Status',
   'select'   => 'D',
   'values'   => array('korrigiert'),
+  'options'  => 'ACP', // show this column only in add, change and copy, not in list, view, delete and filter
   'sort'     => true
 );
 $opts['fdd']['bemerkung'] = array(
