@@ -89,7 +89,11 @@ $opts['cgi']['prefix']['data']      = 'PME_data_';
 /* Get the user's default language and use it if possible or you can
    specify particular one you want to use. Refer to official documentation
    for list of available languages. */
-$opts['language'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+//$opts['language'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+//$opts['language'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'] . '-UTF8';
+//$opts['language'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'] . '-LATIN1';
+//$opts['language'] = 'DE-LATIN1';
+$opts['language'] = 'DE-UTF8';
 
 /* Table-level filter capability. If set, it is included in the WHERE clause
    of any generated SELECT statement in SQL query. This gives you ability to
